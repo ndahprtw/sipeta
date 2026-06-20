@@ -11,14 +11,11 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('staff', function (Blueprint $table) {
+        Schema::create('titik_lahans', function (Blueprint $table) {
             $table->id();
-            $table->string('name');
-            $table->string('no_telepon');
-            $table->string('email')->unique();
-            $table->string('password');
-            $table->enum('role',['Super Admin','Admin','Petugas']);
-            $table->string('profile')->nullable();
+            $table->foreignId('lahan_id')->references('id')->on('lahans')->onDelete('cascade');
+            $table->decimal('latitude', 10, 8);
+            $table->decimal('longitude', 11, 8);
             $table->timestamps();
         });
     }
@@ -28,6 +25,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('staff');
+        Schema::dropIfExists('titik_lahans');
     }
 };
