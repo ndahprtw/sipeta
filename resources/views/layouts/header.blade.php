@@ -3,8 +3,8 @@
 
     <div class="d-flex align-items-center justify-content-between">
       <a href="/dashboard" class="logo d-flex align-items-center">
-        <img src="{{ asset('assets/img/logo.jpg') }}" alt="logo">
-        <span class="d-none d-lg-block"> S-Geografis </span>
+        <img src="{{ asset('assets/img/logo.png') }}" alt="logo">
+        <span class="d-none d-lg-block"> SIPETA </span>
       </a>
       <i class="bi bi-list toggle-sidebar-btn"></i>
     </div><!-- End Logo -->

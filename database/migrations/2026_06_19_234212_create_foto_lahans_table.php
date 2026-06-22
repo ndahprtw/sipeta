@@ -16,7 +16,7 @@ return new class extends Migration
             
             $table->foreignId('lahan_id')->references('id')->on('lahans')->onDelete('cascade');
             $table->string('foto');
-            $table->text('deskripsi');
+            $table->text('keterangan');
             $table->timestamps();
         });
     }

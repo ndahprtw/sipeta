@@ -14,8 +14,8 @@ return new class extends Migration
         Schema::create('titik_lahans', function (Blueprint $table) {
             $table->id();
             $table->foreignId('lahan_id')->references('id')->on('lahans')->onDelete('cascade');
-            $table->decimal('latitude', 10, 8);
-            $table->decimal('longitude', 11, 8);
+            $table->decimal('latitude', 12, 8);
+            $table->decimal('longitude', 12, 8);
             $table->timestamps();
         });
     }

@@ -23,7 +23,9 @@ class DatabaseSeeder extends Seeder
             KategoriSeeder::class,
             SeedersPemilikSeeder::class,
             LahanSeeder::class,
-            RiwayatPemilikSeeder::class
+            RiwayatPemilikSeeder::class,
+            FotoLahanSeeder::class,
+            TitikLahanSeeder::class,
           ]);  
           
     }

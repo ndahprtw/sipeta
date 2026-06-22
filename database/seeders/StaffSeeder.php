@@ -28,7 +28,7 @@ class StaffSeeder extends Seeder
             [
                 'nama' => 'Petugas',
                 'no_telepon' => '6287780776114',
-                'email' => 'Petugas@gmail.com',
+                'email' => 'petugas@gmail.com',
                 'password' => Hash::make('123456'),
                 'role' => 'Petugas',
                 'profile' => 'user.jpeg',
@@ -36,15 +36,25 @@ class StaffSeeder extends Seeder
                 'updated_at' => now(),
             ],
             [
-                'nama' => 'Pak Bos',
+                'nama' => 'Petugas 2',
                 'no_telepon' => '6287780776114',
-                'email' => 'bos@gmail.com',
+                'email' => 'petugass@gmail.com',
                 'password' => Hash::make('123456'),
-                'role' => 'Super Admin',
-                'profile' => 'super admin.jpeg',
+                'role' => 'Petugas',
+                'profile' => 'user.jpeg',
                 'created_at' => now(),
                 'updated_at' => now(),
             ],
+            // [
+            //     'nama' => 'Pak Bos',
+            //     'no_telepon' => '6287780776114',
+            //     'email' => 'bos@gmail.com',
+            //     'password' => Hash::make('123456'),
+            //     'role' => 'Super Admin',
+            //     'profile' => 'super admin.jpeg',
+            //     'created_at' => now(),
+            //     'updated_at' => now(),
+            // ],
         ]);
     }
 }

@@ -19,7 +19,7 @@ return new class extends Migration
             $table->foreignId('pemilik_id')->references('id')->on('pemiliks')->onDelete('cascade');
             $table->integer('luas');
             $table->string('status_verifikasi');
-            $table->enum('status_lahan',['tersedia', 'terjual', 'dalam_proses']);
+            $table->enum('status_lahan',['tersedia', 'terjual', 'dalam proses']);
             $table->text('deskripsi');
             $table->foreignId('penanggung_jawab_id')->references('id')->on('staff')->onDelete('cascade');
             $table->timestamps();

@@ -1,12 +1,12 @@
 <footer id="footer" class="footer">
     <div class="copyright">
-        <b> SISTEM INFORMASI GEOGRAFIS </b> 
+        <b> SIPETA </b>  Sistem Informasi Pemetaan Tanah
     </div>
     <div class="credits">
       <!-- All the links in the footer should remain intact. -->
       <!-- You can delete the links only if you purchased the pro version. -->
       <!-- Licensing information: https://bootstrapmade.com/license/ -->
       <!-- Purchase the pro version with working PHP/AJAX contact form: https://bootstrapmade.com/nice-admin-bootstrap-admin-html-template/ -->
-      2024 | Designed by <a href="mailto:test@gmail.com" target="_blank">test@gmail.com</a>
+      2024 | Develop by <a href="mailto:indhpratw@gmail.com" target="_blank">indhpratw@gmail.com</a>
     </div>
   </footer><!-- End Footer -->

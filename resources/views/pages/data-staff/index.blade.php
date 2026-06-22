@@ -35,9 +35,9 @@
                         <div class="d-flex align-items-center justify-content-between m-3">
                             <h5 class="card-title">
                                 Total : 
-                                {{ $data->where('role', 'Super Admin')->count() }}  Super Admin | 
+                                {{-- {{ $data->where('role', 'Super Admin')->count() }}  Super Admin |  --}}
                                 {{ $data->where('role', 'Admin')->count() }}  Admin | 
-                                {{ $data->where('role', 'User')->count() }}  User
+                                {{ $data->where('role', 'Petugas')->count() }}  Petugas
                             </h5>
                             <a href="{{ route('data-staff.create') }}" class="btn btn-primary">
                                 <i class="bi bi-plus-square"></i> Data Baru
@@ -69,11 +69,9 @@
                                         </td>
                                         <td>{{ $data->email }}</td>
                                         <td>
-                                            @if($data->role == 'Super Admin')
-                                                <span class="badge rounded-pill bg-success">{{ $data->role }}</span>
-                                            @elseif($data->role == 'Admin')
+                                            @if($data->role == 'Admin')
                                                 <span class="badge rounded-pill bg-primary">{{ $data->role }}</span>
-                                            @elseif($data->role == 'User')
+                                            @elseif($data->role == 'Petugas')
                                                 <span class="badge rounded-pill bg-warning">{{ $data->role }}</span>
                                             @endif
                                         </td>
