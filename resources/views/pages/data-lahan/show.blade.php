@@ -118,16 +118,19 @@
                 <div class="card">
                     <div class="card-body pt-3">
                         <p class="my-3 fw-bold"> Riwayat Pemilik :  </p>
-                        <ol>
-                            @foreach ($data->riwayatPemiliks as $rp)
-                                <li>
-                                    <b>Tanggal Peralihan : </b>{{ $rp->tanggal_peralihan}} <br>
-                                    Pemilik lama : {{ $rp->pemilikLama->nama_pemilik }} <br>
-                                    Pemilik baru : {{ $rp->pemilikBaru->nama_pemilik }} <br>
-                                    Keterangan : {{ $rp->keterangan }}
-                                </li> <br>
-                            @endforeach
-                        </ol>
+                        @if ($data->riwayatPemiliks->count() > 0)
+                            <ol>
+                                @foreach ($data->riwayatPemiliks as $rp)
+                                    <li>
+                                        <b>Tanggal Pembuatan : </b>{{ $rp->tanggal_peralihan}} <br>
+                                        Pemilik : {{ $rp->pemilikLama->nama_pemilik }} <br>
+                                        Keterangan : -
+                                    </li> <br>
+                                @endforeach
+                            </ol>
+                        @else
+                            <p class="text-danger text-center">Belum ada riwayat peralihan</p>
+                        @endif
                     </div>
                 </div>
             </div>
@@ -227,9 +230,7 @@
                                         </button> --}}
                                     </div>
                                 @else
-                                    <div class="text-center text-muted py-4">
-                                        Belum ada foto pada lahan terkait.
-                                    </div>
+                                    <p class="text-danger text-center">Belum ada foto pada lahan terkait.</p>
                                 @endif
 
                             </div>
@@ -241,11 +242,15 @@
                         <div class="card">
                             <div class="card-body pt-3">
                                 <p class="my-3 fw-bold"> Titik Koordinat :  </p>
-                                <ul>
-                                    @foreach ($data->titikLahans as $titik)
-                                        <li>[ {{ $titik->latitude }}, {{ $titik->longitude }} ]</li>
-                                    @endforeach
-                                </ul>
+                                @if ($data->titikLahans->count() > 0)
+                                    <ul>
+                                        @foreach ($data->titikLahans as $titik)
+                                            <li>[ {{ $titik->latitude }}, {{ $titik->longitude }} ]</li>
+                                        @endforeach
+                                    </ul>
+                                @else
+                                    <p class="text-danger text-center">Titik koordinat belum ditentukan</p>
+                                @endif
                             </div>
                         </div>
                     </div>

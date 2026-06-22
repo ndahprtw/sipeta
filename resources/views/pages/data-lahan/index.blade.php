@@ -64,7 +64,7 @@
                                                     {{ $item->kategori->nama_kategori }}
                                                 </span>
                                             </td>
-                                            <td>{{ $item->luas }} m<sup>2</sup></td>
+                                            <td>{{ $item->luas ? $item->luas . ' m²' : '-' }}</td>
                                             <td>{{ $item->status_lahan }} </td>
                                             <td>
                                                 <a href="{{ route('data-lahan.show', $item->id) }}" class="btn btn-info btn-sm">
