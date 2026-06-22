@@ -9,6 +9,7 @@ use App\Http\Controllers\FotoLahanController;
 use App\Http\Controllers\KategoriLahanController;
 use App\Http\Controllers\LahanController;
 use App\Http\Controllers\PemilikController;
+use App\Http\Controllers\RiwayatPemilikController;
 
 /*
 |--------------------------------------------------------------------------
@@ -39,6 +40,7 @@ Route::group(['middleware' => 'cekrole:Super Admin,Admin,User'], function() {
     Route::resource('/data-pemilik', PemilikController::class)->names('data-pemilik');
     Route::resource('/kategori-lahan', KategoriLahanController::class)->names('kategori-lahan');
     Route::resource('/detail-lahan', DetailLokasiBidangController::class)->names('detail-lahan');
+    Route::resource('/riwayat-pemilik', RiwayatPemilikController::class)->names('riwayat-pemilik');
    
 // });
 

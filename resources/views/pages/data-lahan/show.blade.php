@@ -44,6 +44,11 @@
             </div>
 
             <div class="col-md-4">
+
+                <div class="mb-3 d-flex justify-content-center align-items-center">
+                    <a href="{{ route('data-lahan.index') }}" class="btn btn-outline-secondary">Kembali ke Halaman Data Lahan</a>
+                </div>
+
                 <div class="card">
                     <div class="card-body pt-3">
 
@@ -106,6 +111,23 @@
                                 </tr>
                             </table>
                         </div>
+                    </div>
+                </div>
+
+                {{-- riwayat pemilik--}}
+                <div class="card">
+                    <div class="card-body pt-3">
+                        <p class="my-3 fw-bold"> Riwayat Pemilik :  </p>
+                        <ol>
+                            @foreach ($data->riwayatPemiliks as $rp)
+                                <li>
+                                    <b>Tanggal Peralihan : </b>{{ $rp->tanggal_peralihan}} <br>
+                                    Pemilik lama : {{ $rp->pemilikLama->nama_pemilik }} <br>
+                                    Pemilik baru : {{ $rp->pemilikBaru->nama_pemilik }} <br>
+                                    Keterangan : {{ $rp->keterangan }}
+                                </li> <br>
+                            @endforeach
+                        </ol>
                     </div>
                 </div>
             </div>
@@ -214,6 +236,7 @@
                         </div>
                     </div>
 
+                    {{-- titik koordinat --}}
                     <div class="col-md-6">
                         <div class="card">
                             <div class="card-body pt-3">
@@ -227,6 +250,7 @@
                         </div>
                     </div>
 
+                    {{-- preview --}}
                     <div class="col-md-12">
                         <div class="card">
                             <div class="card-body pt-3">

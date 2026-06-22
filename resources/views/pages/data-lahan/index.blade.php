@@ -67,7 +67,7 @@
                                             <td>{{ $item->luas }} m<sup>2</sup></td>
                                             <td>{{ $item->status_lahan }} </td>
                                             <td>
-                                                <a href="{{ route('data-lahan.show', $item->id) }}" class="btn btn-warning btn-sm">
+                                                <a href="{{ route('data-lahan.show', $item->id) }}" class="btn btn-info btn-sm">
                                                     <i class="bi bi-folder-fill"></i>
                                                 </a>
 
@@ -100,6 +100,11 @@
                                                         </div>
                                                     </div>
                                                 </div>
+
+                                                <a href="{{ route('riwayat-pemilik.show', $item->id) }}" class="btn btn-warning btn-sm">
+                                                    <i class="bi bi-clock-history"></i>
+                                                </a>
+
                                             </td>
                                         </tr>
                                     @endforeach

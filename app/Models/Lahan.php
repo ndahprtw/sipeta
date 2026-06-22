@@ -15,6 +15,18 @@ class Lahan extends Model
 {
     use HasFactory;
 
+    protected $fillable = [
+        'kode_lahan',
+        'nama_lahan',
+        'kategori_id',
+        'pemilik_id',
+        'luas',
+        'status_verifikasi',
+        'status_lahan',
+        'deskripsi',
+        'penanggung_jawab_id',
+    ];
+
     public function petugas()
     {
         return $this->belongsTo(Staff::class, 'penanggung_jawab_id');

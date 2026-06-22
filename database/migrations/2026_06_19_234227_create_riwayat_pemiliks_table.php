@@ -14,9 +14,9 @@ return new class extends Migration
         Schema::create('riwayat_pemiliks', function (Blueprint $table) {
             $table->id();
             $table->foreignId('lahan_id')->references('id')->on('lahans')->onDelete('cascade');
-            $table->foreignId('pemilik_id')->references('id')->on('pemiliks')->onDelete('cascade');
-            $table->date('tanggal_mulai');
-            $table->date('tanggal_selesai')->nullable();
+            $table->foreignId('pemilik_lama_id')->references('id')->on('pemiliks')->onDelete('cascade');
+            $table->foreignId('pemilik_baru_id')->references('id')->on('pemiliks')->onDelete('cascade');
+            $table->date('tanggal_peralihan');
             $table->text('keterangan');
             $table->timestamps();
         });
