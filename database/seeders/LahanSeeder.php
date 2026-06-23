@@ -24,7 +24,7 @@ class LahanSeeder extends Seeder
                 ])->random(),
                 'status_lahan' => collect([
                     'tersedia',
-                    'terjual',
+                    'dijual',
                     'dalam proses'
                 ])->random(),
                 'deskripsi' => 'Data lahan SIPETA',

@@ -3,11 +3,17 @@
 namespace App\Http\Controllers;
 
 use App\Http\Controllers\Controller;
+use App\Models\KategoriLahan;
 use App\Models\Lahan;
 use Illuminate\Http\Request;
 
 class MapsController extends Controller
 {
+    public function index() {
+        $kategori = KategoriLahan::all();
+        return view('pages.maps', compact('kategori'));
+    }
+
     public function view_maps() {
         return view('pages.data-maps.maps');
     }

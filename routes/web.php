@@ -23,7 +23,8 @@ use App\Http\Controllers\TitikLahanController;
 |
 */
 
-Route::get('/', function () {
+Route::get('/', [MapsController::class, 'index']);
+Route::get('/login', function () {
     return view('login');
 });
 
@@ -46,6 +47,8 @@ Route::group(['middleware' => 'cekrole:Admin,Petugas,User'], function() {
     Route::get('/maps', [MapsController::class, 'view_maps']);
     Route::get('/data-titik', [MapsController::class, 'json']);
     Route::get('/titik-lahan-pemilik/{id}', [MapsController::class, 'json_pemilik_lahan']);
+    
+    
 // });
 
 // // Hak akses milik super admin dan admin
