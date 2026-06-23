@@ -11,7 +11,11 @@ use Illuminate\Http\Request;
 class LahanController extends Controller
 {
     public function index() {
-        $data = Lahan::orderBy('kode_lahan')->get();
+        if (auth()->user()->role == 'Admin') {
+            $data = Lahan::orderBy('kode_lahan')->get();
+        } elseif (auth()->user()->role == 'Petugas') {
+            $data = Lahan::orderBy('kode_lahan')->where('status_verifikasi', 'menunggu')->get();
+        }
         return view('pages.data-lahan.index', compact('data'));
     }
 
@@ -60,29 +64,48 @@ class LahanController extends Controller
 
     public function update(Request $request, $id)
     {
-        $request->validate([
-            'nama_lahan' => 'required',
-            'kategori' => 'required',
-            'deskripsi' => 'required',
-        ]); 
-        
         $data = Lahan::findOrFail($id);
-        $data->update([
-            'nama_lahan' => $request->nama_lahan,
-            'kategori_id' => $request->kategori,
-            'deskripsi' => $request->deskripsi,
-        ]);
+        if ($request->has('verifikasi')) {
+            $data->update([
+                'status_verifikasi' => 'disetujui',
+            ]);
 
-        if ($data->save()){
-            return redirect()->route('data-lahan.index')->with('success', 'Data Berhasil Ditambahkan');
+            if ($data->save()){
+                return redirect()->route('data-lahan.index')->with('success', 'Data lahan telah disetujui dan akan ditampilkan pada peta publik SIPETA.');
+            } else {
+                return redirect()->back()->with('error', 'Gagal Menambahkan Data');
+            }
+
         } else {
-            return redirect()->back()->with('error', 'Gagal Menambahkan Data');
+            $request->validate([
+                'nama_lahan' => 'required',
+                'kategori' => 'required',
+                'deskripsi' => 'required',
+            ]); 
+            
+            $data->update([
+                'nama_lahan' => $request->nama_lahan,
+                'kategori_id' => $request->kategori,
+                'deskripsi' => $request->deskripsi,
+            ]);
+
+            if ($data->save()){
+                return redirect()->route('data-lahan.index')->with('success', 'Data Berhasil Ditambahkan');
+            } else {
+                return redirect()->back()->with('error', 'Gagal Menambahkan Data');
+            }
         }
+
     }
 
     public function show($id) {
         $data = Lahan::findOrFail($id);
         return view('pages.data-lahan.show', compact('data'));
+    }
+
+    public function unduh($id) {
+        $data = Lahan::findOrFail($id);
+        return view('pages.data-lahan.download', compact('data'));
     }
 
     public function destroy($id)

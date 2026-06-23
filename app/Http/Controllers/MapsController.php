@@ -19,7 +19,7 @@ class MapsController extends Controller
     }
 
     public function json() {
-        $titik_lokasi = Lahan::with(['pemilik', 'kategori', 'titikLahans'])->get();
+        $titik_lokasi = Lahan::with(['pemilik', 'kategori', 'titikLahans'])->where('status_verifikasi', 'disetujui')->get();
         return response()->json($titik_lokasi);
     }
 

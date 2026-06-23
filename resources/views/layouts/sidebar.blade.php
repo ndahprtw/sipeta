@@ -11,28 +11,12 @@
       </a>
     </li><!-- End Dashboard Nav -->
 
-    @if ( Auth::user()->role != 'User' )
+    @if ( Auth::user()->role == 'Admin' )
       <!-- Nav -->
       <li class="nav-item">
         <a href="{{ url('/data-staff') }}" class="nav-link {{ Request::is('data-staff*') ? '' : 'collapsed' }}">
           <i class="bi bi-people-fill"></i>
           <span>Data Karyawan</span>
-        </a>
-      </li><!-- End Nav -->
-      
-      <!-- Nav -->
-      <li class="nav-item">
-        <a href="{{ url('/data-pemilik') }}" class="nav-link {{ Request::is('data-pemilik*') ? '' : 'collapsed' }}">
-          <i class="bi bi-people"></i>
-          <span>Data Pemilik</span>
-        </a>
-      </li><!-- End Nav -->
-    
-      <!-- Nav -->
-      <li class="nav-item">
-        <a href="{{ url('/data-lahan') }} " class="nav-link {{ Request::is('data-lahan*') ? '' : 'collapsed' }}">
-          <i class="bi bi-database"></i>
-          <span>Data Lahan</span>
         </a>
       </li><!-- End Nav -->
 
@@ -43,7 +27,24 @@
           <span>Kategori Lahan</span>
         </a>
       </li><!-- End Nav -->
+
     @endif
+     
+    <!-- Nav -->
+    <li class="nav-item">
+      <a href="{{ url('/data-pemilik') }}" class="nav-link {{ Request::is('data-pemilik*') ? '' : 'collapsed' }}">
+        <i class="bi bi-people"></i>
+        <span>Data Pemilik</span>
+      </a>
+    </li><!-- End Nav -->
+
+    <!-- Nav -->
+    <li class="nav-item">
+      <a href="{{ url('/data-lahan') }} " class="nav-link {{ Request::is('data-lahan*') ? '' : 'collapsed' }}">
+        <i class="bi bi-database"></i>
+        <span>Data Lahan</span>
+      </a>
+    </li><!-- End Nav -->
 
     <!-- Nav -->
     <li class="nav-item">

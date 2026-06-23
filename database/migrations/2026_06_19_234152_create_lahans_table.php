@@ -18,7 +18,7 @@ return new class extends Migration
             $table->foreignId('kategori_id')->references('id')->on('kategori_lahans')->onDelete('cascade');
             $table->foreignId('pemilik_id')->references('id')->on('pemiliks')->onDelete('cascade');
             $table->decimal('luas', 12, 2)->nullable();
-            $table->enum('status_verifikasi', ['menunggu', 'disetujui', 'ditolak']);
+            $table->enum('status_verifikasi', ['menunggu', 'disetujui']);
             $table->enum('status_lahan',['tersedia', 'dijual', 'dalam proses']);
             $table->text('deskripsi');
             $table->foreignId('penanggung_jawab_id')->references('id')->on('staff')->onDelete('cascade');

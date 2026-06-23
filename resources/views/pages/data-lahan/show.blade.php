@@ -45,8 +45,17 @@
 
             <div class="col-md-4">
 
-                <div class="mb-3 d-flex justify-content-center align-items-center">
-                    <a href="{{ route('data-lahan.index') }}" class="btn btn-outline-secondary">Kembali ke Halaman Data Lahan</a>
+                <div class="card">
+                    <div class="card-body">
+                        <div class="mb-2 mt-4 d-flex justify-content-between align-items-center">
+                            <a href="{{ route('data-lahan.index') }}" class="btn btn-outline-secondary">Kembali ke Halaman Data Lahan</a>
+                            @if ($data->status_verifikasi == 'menunggu')
+                                <button title="Laporan hanya dapat diunduh setelah data disetujui" class="btn btn-secondary"><i class="bi bi-download"></i></button>
+                            @else
+                                <a href="/unduh-data/{{ $data->id }}" target="_blank" class="btn btn-danger"> <i class="bi bi-download"></i> </a>
+                            @endif
+                        </div>
+                    </div>
                 </div>
 
                 <div class="card">
@@ -144,48 +153,52 @@
                     <div class="col-md-6">
                         <div class="card">
                             <div class="card-body pt-3">
-                                <div class="d-flex align-items-center justify-content-between mx-3">
-                                    <p class="my-3 fw-bold">{{ $data->fotoLahans->count() }} Foto Lahan</p>
-                                    <button type="button" class="btn btn-primary btn-sm" data-bs-toggle="modal" data-bs-target="#tambahFotoLahan"> <i class="bi bi-images"></i> </button>
-                                    <div class="modal fade" id="tambahFotoLahan" tabitem="-1" aria-labelledby="ModalLabel" aria-hidden="true">
-                                        <div class="modal-dialog">
-                                            <div class="modal-content">
-                                                <div class="modal-header">
-                                                    <h5 class="modal-title" id="ModalLabel">Tambah Foto Lahan</h5>
-                                                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                @if (auth()->user()->role == 'Petugas')
+                                    <div class="d-flex align-items-center justify-content-between mx-3">
+                                        <p class="my-3 fw-bold">{{ $data->fotoLahans->count() }} Foto Lahan</p>
+                                        <button type="button" class="btn btn-primary btn-sm" data-bs-toggle="modal" data-bs-target="#tambahFotoLahan"> <i class="bi bi-images"></i> </button>
+                                        <div class="modal fade" id="tambahFotoLahan" tabitem="-1" aria-labelledby="ModalLabel" aria-hidden="true">
+                                            <div class="modal-dialog">
+                                                <div class="modal-content">
+                                                    <div class="modal-header">
+                                                        <h5 class="modal-title" id="ModalLabel">Tambah Foto Lahan</h5>
+                                                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                                    </div>
+                                                    <form action="{{ route('foto-lahan.store') }}" method="POST" enctype="multipart/form-data">
+                                                        @csrf
+                                                        <div class="modal-body">
+                                                            <input type="hidden" name="lahan_id" value="{{ $data->id }}">
+                                                            <div class="mb-3">
+                                                                <label for="" class="form-label">Foto Lahan</label>
+                                                                <input type="file" class="form-control @error('foto') is-invalid @enderror shadow-none" name="foto" id="" accept="image/*">
+                                                                @error('foto') 
+                                                                    <div class="invalid-feedback">
+                                                                        {{ $message }}
+                                                                    </div> 
+                                                                @enderror
+                                                            </div>
+                                                            <div class="mb-3">
+                                                                <label for="" class="form-label">Keterangan</label>
+                                                                <input type="text" class="form-control @error('keterangan') is-invalid @enderror shadow-none" name="keterangan" id="" accept="image/*">
+                                                                @error('keterangan') 
+                                                                    <div class="invalid-feedback">
+                                                                        {{ $message }}
+                                                                    </div> 
+                                                                @enderror
+                                                            </div>
+                                                        </div>
+                                                        <div class="modal-footer">
+                                                            <button type="submit" class="btn btn-success">Tambah</button>
+                                                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Batal</button>
+                                                        </div>
+                                                    </form>
                                                 </div>
-                                                <form action="{{ route('foto-lahan.store') }}" method="POST" enctype="multipart/form-data">
-                                                    @csrf
-                                                    <div class="modal-body">
-                                                        <input type="hidden" name="lahan_id" value="{{ $data->id }}">
-                                                        <div class="mb-3">
-                                                            <label for="" class="form-label">Foto Lahan</label>
-                                                            <input type="file" class="form-control @error('foto') is-invalid @enderror shadow-none" name="foto" id="" accept="image/*">
-                                                            @error('foto') 
-                                                                <div class="invalid-feedback">
-                                                                    {{ $message }}
-                                                                </div> 
-                                                            @enderror
-                                                        </div>
-                                                        <div class="mb-3">
-                                                            <label for="" class="form-label">Keterangan</label>
-                                                            <input type="text" class="form-control @error('keterangan') is-invalid @enderror shadow-none" name="keterangan" id="" accept="image/*">
-                                                            @error('keterangan') 
-                                                                <div class="invalid-feedback">
-                                                                    {{ $message }}
-                                                                </div> 
-                                                            @enderror
-                                                        </div>
-                                                    </div>
-                                                    <div class="modal-footer">
-                                                        <button type="submit" class="btn btn-success">Tambah</button>
-                                                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Batal</button>
-                                                    </div>
-                                                </form>
                                             </div>
                                         </div>
                                     </div>
-                                </div>
+                                @elseif (auth()->user()->role == 'Admin')
+                                    <p class="my-3 fw-bold">{{ $data->fotoLahans->count() }} Foto Lahan</p>
+                                @endif
 
                                 @if($data->fotoLahans->count() > 0)
                                     <div id="carouselFotoLahan" class="carousel slide" data-bs-ride="carousel">
@@ -193,32 +206,37 @@
                                             @foreach($data->fotoLahans as $foto)
                                                 <div class="carousel-item {{ $loop->first ? 'active' : '' }}">
                                                     <img src="{{ asset('assets/img/lahan/'. $data->kode_lahan . '/' . $foto->foto) }}" class="d-block w-100 rounded" style="height:300px; object-fit:cover;" alt="Foto Lahan">
-                                                    <div class="d-flex align-items-center justify-content-between mx-3">
-                                                        <p class="my-2">{{ $foto->keterangan }}</p>
+                                                    
+                                                    @if (auth()->user()->role == 'Petugas')
+                                                        <div class="d-flex align-items-center justify-content-between mx-3">
+                                                            <p class="my-2">{{ $foto->keterangan }}</p>
 
-                                                        <button type="button" class="btn btn-danger btn-sm" data-bs-toggle="modal" data-bs-target="#deleteFotoLahan{{ $foto->id }}"> <i class="bi bi-trash-fill"></i> </button>
-                                                        <div class="modal fade" id="deleteFotoLahan{{ $foto->id }}" tabindex="-1" aria-labelledby="ModalLabel" aria-hidden="true">
-                                                            <div class="modal-dialog">
-                                                                <div class="modal-content">
-                                                                    <div class="modal-header">
-                                                                        <h5 class="modal-title" id="ModalLabel">Konfirmasi Hapus Data</h5>
-                                                                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                                                                    </div>
-                                                                    <div class="modal-body">
-                                                                        Apakah Anda yakin ingin menghapus foto untuk <strong>{{ $foto->keterangan }}</strong>?
-                                                                    </div>
-                                                                    <div class="modal-footer">
-                                                                        <form action="{{ route('foto-lahan.destroy', $foto->id) }}" method="POST">
-                                                                            @csrf
-                                                                            @method('DELETE')
-                                                                            <button type="submit" class="btn btn-danger">Hapus</button>
-                                                                        </form>
-                                                                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Batal</button>
+                                                            <button type="button" class="btn btn-danger btn-sm" data-bs-toggle="modal" data-bs-target="#deleteFotoLahan{{ $foto->id }}"> <i class="bi bi-trash-fill"></i> </button>
+                                                            <div class="modal fade" id="deleteFotoLahan{{ $foto->id }}" tabindex="-1" aria-labelledby="ModalLabel" aria-hidden="true">
+                                                                <div class="modal-dialog">
+                                                                    <div class="modal-content">
+                                                                        <div class="modal-header">
+                                                                            <h5 class="modal-title" id="ModalLabel">Konfirmasi Hapus Data</h5>
+                                                                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                                                        </div>
+                                                                        <div class="modal-body">
+                                                                            Apakah Anda yakin ingin menghapus foto untuk <strong>{{ $foto->keterangan }}</strong>?
+                                                                        </div>
+                                                                        <div class="modal-footer">
+                                                                            <form action="{{ route('foto-lahan.destroy', $foto->id) }}" method="POST">
+                                                                                @csrf
+                                                                                @method('DELETE')
+                                                                                <button type="submit" class="btn btn-danger">Hapus</button>
+                                                                            </form>
+                                                                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Batal</button>
+                                                                        </div>
                                                                     </div>
                                                                 </div>
                                                             </div>
                                                         </div>
-                                                    </div>
+                                                    @elseif (auth()->user()->role == 'Admin')
+                                                        <p class="text-center my-2">{{ $foto->keterangan }}</p>
+                                                    @endif
                                                 </div>
                                             @endforeach
 
@@ -249,40 +267,44 @@
                                             <li>[ {{ $titik->latitude }}, {{ $titik->longitude }} ]</li>
                                         @endforeach
                                     </ul>
-                                    <div class="d-flex justify-content-between align-items-center">
-                                        {{-- edit lokasi --}}
-                                        <a href="{{ route('titik-lahan.edit', $data->id) }}" class="btn btn-primary"> <i class="bi bi-pencil-square"></i> Edit Koordinat </a>
-                                        
-                                        {{-- hapus lokasi --}}
-                                        <button type="button" class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#deleteModal{{ $data->id }}">
-                                            <i class="bi bi-trash-fill"></i> Hapus Koordinat
-                                        </button>
-                                        <div class="modal fade" id="deleteModal{{ $data->id }}" tabitem="-1" aria-labelledby="ModalLabel" aria-hidden="true">
-                                            <div class="modal-dialog">
-                                                <div class="modal-content">
-                                                    <div class="modal-header">
-                                                        <h5 class="modal-title" id="ModalLabel">Hapus Koordinat {{ $data->kode_lahan }}</h5>
-                                                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                                                    </div>
-                                                    <div class="modal-body my-3">
-                                                        Apakah Anda yakin ingin menghapus titik koordinat terkait?
-                                                    </div>
-                                                    <div class="modal-footer">
-                                                        <form action="{{ route('titik-lahan.destroy', $data->id) }}" method="POST">
-                                                            @csrf
-                                                            @method('DELETE')
-                                                            <button type="submit" class="btn btn-danger">Hapus</button>
-                                                        </form>
-                                                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Batal</button>
+                                    @if (auth()->user()->role == 'Petugas')
+                                        <div class="d-flex justify-content-between align-items-center">
+                                            {{-- edit lokasi --}}
+                                            <a href="{{ route('titik-lahan.edit', $data->id) }}" class="btn btn-primary"> <i class="bi bi-pencil-square"></i> Edit Koordinat </a>
+                                            
+                                            {{-- hapus lokasi --}}
+                                            <button type="button" class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#deleteModal{{ $data->id }}">
+                                                <i class="bi bi-trash-fill"></i> Hapus Koordinat
+                                            </button>
+                                            <div class="modal fade" id="deleteModal{{ $data->id }}" tabitem="-1" aria-labelledby="ModalLabel" aria-hidden="true">
+                                                <div class="modal-dialog">
+                                                    <div class="modal-content">
+                                                        <div class="modal-header">
+                                                            <h5 class="modal-title" id="ModalLabel">Hapus Koordinat {{ $data->kode_lahan }}</h5>
+                                                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                                        </div>
+                                                        <div class="modal-body my-3">
+                                                            Apakah Anda yakin ingin menghapus titik koordinat terkait?
+                                                        </div>
+                                                        <div class="modal-footer">
+                                                            <form action="{{ route('titik-lahan.destroy', $data->id) }}" method="POST">
+                                                                @csrf
+                                                                @method('DELETE')
+                                                                <button type="submit" class="btn btn-danger">Hapus</button>
+                                                            </form>
+                                                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Batal</button>
+                                                        </div>
                                                     </div>
                                                 </div>
                                             </div>
                                         </div>
-                                    </div>
+                                    @endif
                                 @else
                                     <div class="text-center">
                                         <p class="text-danger text-center">Titik koordinat belum ditentukan.</p>
-                                        <a href="{{ route('titik-lahan.show', $data->id) }}" class="btn btn-primary"> <i class="bi bi-plus-square"></i> Tambah Lokasi Lahan</a>
+                                        @if (auth()->user()->role == 'Petugas')
+                                            <a href="{{ route('titik-lahan.show', $data->id) }}" class="btn btn-primary"> <i class="bi bi-plus-square"></i> Tambah Lokasi Lahan</a>
+                                        @endif
                                     </div>
                                 @endif
                             </div>

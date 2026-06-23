@@ -27,13 +27,13 @@ class LoginController extends Controller
          if (Auth::attempt($request->only('email', 'password'))) {
             $user = Auth::user();
             
-            if ($user->role === 'Super Admin' || $user->role === 'Admin' || $user->role === 'User') {
+            if ($user->role === 'Petugas' || $user->role === 'Admin') {
                 return redirect('/dashboard');
             } else {
-                return redirect('/')->with('wrong', 'Role tidak Ditemukan !');
+                return redirect('/login')->with('wrong', 'Role tidak Ditemukan !');
             }
         } else {
-            return redirect('/')->with('wrong', 'Email dan password tidak tersedia');
+            return redirect('/login')->with('wrong', 'Email dan password tidak tersedia');
         }
     }
 
@@ -41,10 +41,10 @@ class LoginController extends Controller
         if (Auth::check()) {
             $role = Auth::user()->role;
     
-           if ($role === 'Super Admin' || $role === 'Admin' || $role === 'User') {
+           if ($role === 'Petugas' || $role === 'Admin') {
                 Auth::logout();
             }
         } 
-        return redirect('/');
+        return redirect('/login');
     }
 }

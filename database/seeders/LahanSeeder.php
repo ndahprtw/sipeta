@@ -20,7 +20,6 @@ class LahanSeeder extends Seeder
                 'status_verifikasi' => collect([
                     'menunggu',
                     'disetujui',
-                    'ditolak'
                 ])->random(),
                 'status_lahan' => collect([
                     'tersedia',

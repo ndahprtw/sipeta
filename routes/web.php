@@ -31,8 +31,7 @@ Route::get('/login', function () {
 Route::post('/login', [LoginController::class, 'login']);
 Route::get('/logout', [LoginController::class, 'logout']);
 
-// Hak akses semua user
-Route::group(['middleware' => 'cekrole:Admin,Petugas,User'], function() {
+Route::group(['middleware' => 'cekrole:Admin,Petugas'], function() {
     Route::get('/dashboard', 
         function () {return view('pages/dashboard');
     });
@@ -44,6 +43,7 @@ Route::group(['middleware' => 'cekrole:Admin,Petugas,User'], function() {
     Route::resource('/detail-lahan', DetailLokasiBidangController::class)->names('detail-lahan');
     Route::resource('/titik-lahan', TitikLahanController::class)->names('titik-lahan');
     Route::resource('/riwayat-pemilik', RiwayatPemilikController::class)->names('riwayat-pemilik');
+    Route::get('/unduh-data/{id}', [LahanController::class, 'unduh']);
     Route::get('/maps', [MapsController::class, 'view_maps']);
     Route::get('/data-titik', [MapsController::class, 'json']);
     Route::get('/titik-lahan-pemilik/{id}', [MapsController::class, 'json_pemilik_lahan']);
