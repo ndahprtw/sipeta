@@ -3,13 +3,14 @@
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\LoginController;
 use App\Http\Controllers\StaffController;
-use App\Http\Controllers\LokasiBidangController;
 use App\Http\Controllers\DetailLokasiBidangController;
 use App\Http\Controllers\FotoLahanController;
 use App\Http\Controllers\KategoriLahanController;
 use App\Http\Controllers\LahanController;
+use App\Http\Controllers\MapsController;
 use App\Http\Controllers\PemilikController;
 use App\Http\Controllers\RiwayatPemilikController;
+use App\Http\Controllers\TitikLahanController;
 
 /*
 |--------------------------------------------------------------------------
@@ -30,7 +31,7 @@ Route::post('/login', [LoginController::class, 'login']);
 Route::get('/logout', [LoginController::class, 'logout']);
 
 // Hak akses semua user
-Route::group(['middleware' => 'cekrole:Super Admin,Admin,User'], function() {
+Route::group(['middleware' => 'cekrole:Admin,Petugas,User'], function() {
     Route::get('/dashboard', 
         function () {return view('pages/dashboard');
     });
@@ -40,14 +41,16 @@ Route::group(['middleware' => 'cekrole:Super Admin,Admin,User'], function() {
     Route::resource('/data-pemilik', PemilikController::class)->names('data-pemilik');
     Route::resource('/kategori-lahan', KategoriLahanController::class)->names('kategori-lahan');
     Route::resource('/detail-lahan', DetailLokasiBidangController::class)->names('detail-lahan');
+    Route::resource('/titik-lahan', TitikLahanController::class)->names('titik-lahan');
     Route::resource('/riwayat-pemilik', RiwayatPemilikController::class)->names('riwayat-pemilik');
-   
+    Route::get('/maps', [MapsController::class, 'view_maps']);
+    Route::get('/data-titik', [MapsController::class, 'json']);
+    Route::get('/titik-lahan-pemilik/{id}', [MapsController::class, 'json_pemilik_lahan']);
 // });
 
 // // Hak akses milik super admin dan admin
 // Route::group(['middleware' => 'cekrole:Super Admin,Admin,User'], function() {
-    Route::get('/maps', [LokasiBidangController::class, 'titik_lokasi']);
-    Route::get('/data-titik', [LokasiBidangController::class, 'json']);
+    // Route::get('/maps', [LokasiBidangController::class, 'titik_lokasi']);
     // Route::get('/data-titik/{id}', [LokasiBidangController::class, 'json']);
 
 // });

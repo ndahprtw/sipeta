@@ -5,7 +5,7 @@
 
     <!-- Dashboard Nav -->
     <li class="nav-item">
-      <a href="{{ url('/dashboard') }}" class="nav-link collapsed">
+      <a href="{{ url('/dashboard') }}" class="nav-link {{ Request::is('dashboard*') ? '' : 'collapsed' }}">
         <i class="bi bi-grid"></i>
         <span>Dashboard</span>
       </a>
@@ -45,13 +45,13 @@
       </li><!-- End Nav -->
     @endif
 
-    {{-- <!-- Nav -->
+    <!-- Nav -->
     <li class="nav-item">
-      <a href="{{ url('/maps') }}" class="nav-link collapsed">
+      <a href="{{ url('/maps') }}" class="nav-link {{ Request::is('maps*') ? '' : 'collapsed' }}">
         <i class="bi bi-geo-alt-fill"></i>
         <span>Maps</span>
       </a>
-    </li><!-- End Nav --> --}}
+    </li><!-- End Nav -->
 
     <!-- Logout Nav -->
     <li class="nav-item">

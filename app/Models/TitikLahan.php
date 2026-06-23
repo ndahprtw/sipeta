@@ -8,4 +8,10 @@ use Illuminate\Database\Eloquent\Model;
 class TitikLahan extends Model
 {
     use HasFactory;
+
+    protected $fillable = [
+        'lahan_id',
+        'latitude',
+        'longitude',
+    ];
 }

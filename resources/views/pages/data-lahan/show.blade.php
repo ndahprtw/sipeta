@@ -122,8 +122,9 @@
                             <ol>
                                 @foreach ($data->riwayatPemiliks as $rp)
                                     <li>
-                                        <b>Tanggal Pembuatan : </b>{{ $rp->tanggal_peralihan}} <br>
-                                        Pemilik : {{ $rp->pemilikLama->nama_pemilik }} <br>
+                                        <b>Tanggal Peralihan : </b>{{ $rp->tanggal_peralihan}} <br>
+                                        Pemilik Lama : {{ $rp->pemilikLama->nama_pemilik }} <br>
+                                        Pemilik Baru : {{ $rp->pemilikBaru->nama_pemilik }} <br>
                                         Keterangan : -
                                     </li> <br>
                                 @endforeach
@@ -248,8 +249,41 @@
                                             <li>[ {{ $titik->latitude }}, {{ $titik->longitude }} ]</li>
                                         @endforeach
                                     </ul>
+                                    <div class="d-flex justify-content-between align-items-center">
+                                        {{-- edit lokasi --}}
+                                        <a href="{{ route('titik-lahan.edit', $data->id) }}" class="btn btn-primary"> <i class="bi bi-pencil-square"></i> Edit Koordinat </a>
+                                        
+                                        {{-- hapus lokasi --}}
+                                        <button type="button" class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#deleteModal{{ $data->id }}">
+                                            <i class="bi bi-trash-fill"></i> Hapus Koordinat
+                                        </button>
+                                        <div class="modal fade" id="deleteModal{{ $data->id }}" tabitem="-1" aria-labelledby="ModalLabel" aria-hidden="true">
+                                            <div class="modal-dialog">
+                                                <div class="modal-content">
+                                                    <div class="modal-header">
+                                                        <h5 class="modal-title" id="ModalLabel">Hapus Koordinat {{ $data->kode_lahan }}</h5>
+                                                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                                    </div>
+                                                    <div class="modal-body my-3">
+                                                        Apakah Anda yakin ingin menghapus titik koordinat terkait?
+                                                    </div>
+                                                    <div class="modal-footer">
+                                                        <form action="{{ route('titik-lahan.destroy', $data->id) }}" method="POST">
+                                                            @csrf
+                                                            @method('DELETE')
+                                                            <button type="submit" class="btn btn-danger">Hapus</button>
+                                                        </form>
+                                                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Batal</button>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
                                 @else
-                                    <p class="text-danger text-center">Titik koordinat belum ditentukan</p>
+                                    <div class="text-center">
+                                        <p class="text-danger text-center">Titik koordinat belum ditentukan.</p>
+                                        <a href="{{ route('titik-lahan.show', $data->id) }}" class="btn btn-primary"> <i class="bi bi-plus-square"></i> Tambah Lokasi Lahan</a>
+                                    </div>
                                 @endif
                             </div>
                         </div>
@@ -259,19 +293,12 @@
                     <div class="col-md-12">
                         <div class="card">
                             <div class="card-body pt-3">
-                                <p class="my-3 fw-bold"> Preview :  </p>
-                                <div id="map" style="width: 100%; height: 500px;"></div>
-        
-                                <script>
-                                    const map = L.map('map').setView([-7.030741623246851, 112.75356117827202], 18);
-                                
-                                    const tiles = L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
-                                        maxZoom: 19,
-                                        attribution: '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>',
-                                    }).addTo(map);
-                                
-                                    
-                                </script>
+                                @if ($data->titikLahans->count() > 0)
+                                    <p class="my-3 fw-bold"> Preview :  </p>
+                                    <div id="map" style="width: 100%; height: 500px;"></div>
+                                @else
+                                    <p class="text-danger my-5 text-center">Preview lokasi lahan akan muncul setelah menentukan titik koordinat.</p>
+                                @endif 
                             </div>
                         </div>
                     </div>
@@ -280,4 +307,99 @@
 
         </div>
     </section>
+@endsection
+@section('scripts')
+    <script>
+        const map = L.map('map').setView([-7.030741623246851, 112.75356117827202], 16);
+
+        L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
+            maxZoom: 19,
+            attribution: '&copy; OpenStreetMap'
+        }).addTo(map);
+
+        $(document).ready(function () {
+
+            $.getJSON('/titik-lahan-pemilik/{{ $data->pemilik->id }}', function (data) {
+
+                let group = L.featureGroup().addTo(map);
+
+                data.forEach(function (item) {
+
+                    // Skip jika belum punya minimal 3 titik
+                    if (!item.titik_lahans || item.titik_lahans.length < 3) {
+                        return;
+                    }
+
+                    const coordinates = item.titik_lahans.map(function (titik) {
+                        return [
+                            parseFloat(titik.latitude),
+                            parseFloat(titik.longitude)
+                        ];
+                    });
+
+                    const warna = item.kategori
+                        ? item.kategori.warna
+                        : '#3388ff';
+
+                    const polygon = L.polygon(coordinates, {
+                        color: warna,
+                        fillColor: warna,
+                        fillOpacity: 0.5,
+                        weight: 2
+                    }).addTo(map);
+
+                    group.addLayer(polygon);
+
+                    const popupContent = `
+                        <table class="table table-sm mb-0">
+                            <tr>
+                                <td><b>Kode</b></td>
+                                <td>${item.kode_lahan}</td>
+                            </tr>
+                            <tr>
+                                <td><b>Nama</b></td>
+                                <td>${item.nama_lahan}</td>
+                            </tr>
+                            <tr>
+                                <td><b>Pemilik</b></td>
+                                <td>${item.pemilik ? item.pemilik.nama_pemilik : '-'}</td>
+                            </tr>
+                            <tr>
+                                <td><b>Kategori</b></td>
+                                <td>${item.kategori ? item.kategori.nama_kategori : '-'}</td>
+                            </tr>
+                            <tr>
+                                <td><b>Luas</b></td>
+                                <td>${item.luas ? item.luas + ' m²' : '-'}</td>
+                            </tr>
+                            <tr>
+                                <td><b>Status</b></td>
+                                <td>${item.status_lahan}</td>
+                            </tr>
+                            <tr>
+                                <td><b>Deskripsi</b></td>
+                                <td>${item.deskripsi ?? '-'}</td>
+                            </tr>
+                        </table>
+                    `;
+
+                    polygon.bindPopup(popupContent);
+
+                    polygon.on('click', function () {
+                        this.openPopup();
+                    });
+
+                });
+
+                // Zoom otomatis ke seluruh polygon
+                if (group.getLayers().length > 0) {
+                    map.fitBounds(group.getBounds());
+                }
+
+            }).fail(function(xhr) {
+                console.error('Gagal mengambil data:', xhr.responseText);
+            });
+
+        });
+    </script>
 @endsection

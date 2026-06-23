@@ -101,30 +101,34 @@
                             </div>
                         </div>
 
-                        <div class="table-responsive">
-                            <table class="table" id="pegawai">
-                                <thead>
-                                    <tr>
-                                        <th>No</th>
-                                        <th>Tanggal Peralihan</th>
-                                        <th>Pemilik Lama</th>
-                                        <th>Pemilik Baru</th>
-                                        <th>Keterangan</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    @foreach($data as $no => $item)
+                        @if ($data->count()>0)
+                            <div class="table-responsive">
+                                <table class="table" id="pegawai">
+                                    <thead>
                                         <tr>
-                                            <td>{{ $no + 1 }}</td>
-                                            <td>{{ $item->tanggal_peralihan }}</td>
-                                            <td>{{ $item->pemilikLama->nama_pemilik }}</td>
-                                            <td>{{ $item->pemilikBaru->nama_pemilik }}</td>
-                                            <td>{{ $item->keterangan }} </td>
+                                            <th>No</th>
+                                            <th>Tanggal Peralihan</th>
+                                            <th>Pemilik Lama</th>
+                                            <th>Pemilik Baru</th>
+                                            <th>Keterangan</th>
                                         </tr>
-                                    @endforeach
-                                </tbody>
-                            </table>
-                        </div>
+                                    </thead>
+                                    <tbody>
+                                        @foreach($data as $no => $item)
+                                            <tr>
+                                                <td>{{ $no + 1 }}</td>
+                                                <td>{{ $item->tanggal_peralihan }}</td>
+                                                <td>{{ $item->pemilikLama->nama_pemilik }}</td>
+                                                <td>{{ $item->pemilikBaru->nama_pemilik }}</td>
+                                                <td>{{ $item->keterangan }} </td>
+                                            </tr>
+                                        @endforeach
+                                    </tbody>
+                                </table>
+                            </div>
+                        @else
+                            <p class="text-danger text-center my-5">Belum ada riwayat pergantian kepemilikan.</p>
+                        @endif
 
                         <div class="my-3 d-flex justify-content-center align-items-center">
                             <a href="{{ route('data-lahan.index') }}" class="btn btn-secondary">Kembali</a>

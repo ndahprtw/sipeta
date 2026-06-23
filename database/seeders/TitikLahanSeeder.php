@@ -9,33 +9,54 @@ class TitikLahanSeeder extends Seeder
 {
     public function run(): void
     {
-        $titik = [
+        $data = [
+        // Lahan 1
             [
-                'latitude' => -7.043250,
-                'longitude' => 112.735100,
+                'lahan_id' => 1,
+                'latitude' => -7.030895,
+                'longitude' => 112.752992,
             ],
             [
-                'latitude' => -7.043500,
-                'longitude' => 112.735400,
+                'lahan_id' => 1,
+                'latitude' => -7.030916,
+                'longitude' => 112.752994,
             ],
             [
-                'latitude' => -7.043900,
-                'longitude' => 112.735200,
+                'lahan_id' => 1,
+                'latitude' => -7.030913,
+                'longitude' => 112.752940,
             ],
             [
-                'latitude' => -7.043700,
-                'longitude' => 112.734800,
+                'lahan_id' => 1,
+                'latitude' => -7.030888,
+                'longitude' => 112.752939,
             ],
+
+            // Lahan 2
+            [
+                'lahan_id' => 2,
+                'latitude' => -7.030908,
+                'longitude' => 112.753087,
+            ],
+            [
+                'lahan_id' => 2,
+                'latitude' => -7.03093829,
+                'longitude' => 112.75318305,
+            ],
+            [
+                'lahan_id' => 2,
+                'latitude' => -7.030980,
+                'longitude' => 112.753064,
+            ],
+            // [
+            //     'lahan_id' => 2,
+            //     'latitude' => -7.03101218,
+            //     'longitude' => 112.75316141,
+            // ],
         ];
 
-        foreach ($titik as $index => $item) {
-
-            TitikLahan::create([
-                'lahan_id' => 1,
-                'latitude' => $item['latitude'],
-                'longitude' => $item['longitude'],
-            ]);
-
+        foreach ($data as $item) {
+            TitikLahan::create($item);
         }
     }
 }
