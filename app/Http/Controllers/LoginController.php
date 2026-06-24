@@ -2,17 +2,57 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
+use App\Models\KategoriLahan;
+use App\Models\Lahan;
+use App\Models\Pemilik;
+use App\Models\Staff;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
 
 class LoginController extends Controller
 {
     public function dashboard()
     {
-        // Your logic here, e.g., returning a view
-        return view('pages.dashboard');
+        $total_petugas = Staff::where('role', 'Petugas')->count();
+        $total_pemilik = Pemilik::count();
+        $total_lahan = Lahan::count();
+
+        // kategori lahan
+        $kategoriChart = KategoriLahan::withCount('lahans')->get();
+        $kategoriLabel = $kategoriChart->pluck('nama_kategori');
+        $kategoriData = $kategoriChart->pluck('lahans_count');
+        $kategoriWarna = $kategoriChart->pluck('warna');
+
+        // status lahan
+        $statusLahan = Lahan::select(
+            'status_lahan',
+            DB::raw('count(*) as total')
+        )
+        ->groupBy('status_lahan')
+        ->get();
+        $statusLahanLabel = $statusLahan->pluck('status_lahan');
+        $statusLahanData = $statusLahan->pluck('total');
+
+        // status verifikasi
+        $statusVerifikasi = Lahan::select(
+            'status_verifikasi',
+            DB::raw('count(*) as total')
+        )
+        ->groupBy('status_verifikasi')
+        ->get();
+        $statusVerifikasiLabel = $statusVerifikasi->pluck('status_verifikasi');
+        $statusVerifikasiData = $statusVerifikasi->pluck('total');
+
+        return view('pages.dashboard', compact(
+            'total_petugas', 'total_pemilik', 'total_lahan',
+            'kategoriLabel', 'kategoriData', 'kategoriWarna',
+            'statusLahanLabel', 'statusLahanData',
+            'statusVerifikasiLabel', 'statusVerifikasiData'
+        ));
     }
+
     public function login(Request $request) {
         // dd($request);
         $request->validate([

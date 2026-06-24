@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Models\Lahan;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
@@ -15,4 +16,8 @@ class KategoriLahan extends Model
         'deskripsi',
     ];
 
+    public function lahans()
+    {
+        return $this->hasMany(Lahan::class, 'kategori_id');
+    }
 }

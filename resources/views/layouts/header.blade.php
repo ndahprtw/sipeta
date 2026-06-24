@@ -15,7 +15,11 @@
         <li class="nav-item dropdown pe-3">
 
           <a class="nav-link nav-profile d-flex align-items-center pe-0" href="#" data-bs-toggle="dropdown">
-            <img src="{{ asset('assets/img/profile/' . auth()->user()->profile) }}" alt="profile image" class="border rounded-circle img-fluid">
+            @if (auth()->user()->profile != null)
+              <img src="{{ asset('assets/img/profile/' . auth()->user()->profile) }}" alt="profile image" class="border rounded-circle img-fluid">
+            @else
+              <img src="{{ asset('assets/img/profile/default-profile.jpeg') }}" alt="profile image" class="border rounded-circle img-fluid">
+            @endif
             <span class="d-none d-md-block dropdown-toggle ps-2">{{ auth()->user()->name }}</span>
           </a><!-- End Profile Iamge Icon -->
 

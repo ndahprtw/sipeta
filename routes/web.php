@@ -32,10 +32,9 @@ Route::post('/login', [LoginController::class, 'login']);
 Route::get('/logout', [LoginController::class, 'logout']);
 
 Route::group(['middleware' => 'cekrole:Admin,Petugas'], function() {
-    Route::get('/dashboard', 
-        function () {return view('pages/dashboard');
-    });
+    Route::get('/dashboard', [LoginController::class, 'dashboard']);
     // Route::resource('/data-lahan', LokasiBidangController::class)->names('data-lahan');
+    
     Route::resource('/data-lahan', LahanController::class)->names('data-lahan');
     Route::resource('/foto-lahan', FotoLahanController::class)->names('foto-lahan');
     Route::resource('/data-pemilik', PemilikController::class)->names('data-pemilik');
