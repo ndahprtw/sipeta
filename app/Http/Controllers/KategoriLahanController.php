@@ -31,7 +31,7 @@ class KategoriLahanController extends Controller
         if ($data->save()){
             Activity::create([
                 'aktivitas' => auth()->user()->name . ' menambahkan kategori lahan baru : ' . $request->kategori,
-                'staff_id' => auth()->user->id,
+                'staff_id' => auth()->user()->id,
             ]);
             return redirect()->route('kategori-lahan.index')->with('success', 'Data Berhasil Ditambahkan');
         } else {
@@ -57,7 +57,7 @@ class KategoriLahanController extends Controller
         if ($data->save()){
             Activity::create([
                 'aktivitas' => auth()->user()->name . ' mengupdate kategori lahan : ' . $request->kategori,
-                'staff_id' => auth()->user->id,
+                'staff_id' => auth()->user()->id,
             ]);
             return redirect()->route('kategori-lahan.index')->with('success', 'Data Berhasil Diupdate');
         } else {
@@ -71,7 +71,7 @@ class KategoriLahanController extends Controller
         if ($data->delete()){
             Activity::create([
                 'aktivitas' => auth()->user()->name . ' menghapus kategori lahan : ' . $data->nama_kategori,
-                'staff_id' => auth()->user->id,
+                'staff_id' => auth()->user()->id,
             ]);
             return redirect()->route('kategori-lahan.index')->with('success', 'Data Terkait Berhasil Dihapus');
         } else {

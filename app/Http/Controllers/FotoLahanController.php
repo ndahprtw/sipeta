@@ -39,7 +39,7 @@ class FotoLahanController extends Controller
         if ($data->save()){
             Activity::create([
                 'aktivitas' => auth()->user()->name . ' menambahkan foto untuk lahan : ' . $lahan->kode_lahan,
-                'staff_id' => auth()->user->id,
+                'staff_id' => auth()->user()->id,
             ]);
             return redirect()->route('data-lahan.show', $request->lahan_id)->with('success', 'Data Berhasil Ditambahkan');
         } else {
@@ -62,7 +62,7 @@ class FotoLahanController extends Controller
         if ($data->delete()){
             Activity::create([
                 'aktivitas' => auth()->user()->name . ' menghapus foto untuk lahan : ' . $lahan->kode_lahan,
-                'staff_id' => auth()->user->id,
+                'staff_id' => auth()->user()->id,
             ]);
             return redirect()->route('data-lahan.show', $data->lahan_id)->with('success', 'Foto Terkait Berhasil Dihapus');
         } else {

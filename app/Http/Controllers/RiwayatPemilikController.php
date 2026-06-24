@@ -42,7 +42,7 @@ class RiwayatPemilikController extends Controller
             $lahan->save();
             Activity::create([
                 'aktivitas' => auth()->user()->name . ' mengubah riwayat kepemilikan lahan : ' . $lahan->kode_lahan,
-                'staff_id' => auth()->user->id,
+                'staff_id' => auth()->user()->id,
             ]);
             return redirect()->route('riwayat-pemilik.show', $request->lahan_id)->with('success', 'Data Berhasil Ditambahkan');
         } else {

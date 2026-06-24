@@ -36,7 +36,7 @@ class PemilikController extends Controller
         if ($data->save()){
             Activity::create([
                 'aktivitas' => auth()->user()->name . ' menambahkan data pemilik lahan baru : ' . $request->nama,
-                'staff_id' => auth()->user->id,
+                'staff_id' => auth()->user()->id,
             ]);
             return redirect()->route('data-pemilik.index')->with('success', 'Data Berhasil Ditambahkan');
         } else {
@@ -67,7 +67,7 @@ class PemilikController extends Controller
         if ($data->save()){
             Activity::create([
                 'aktivitas' => auth()->user()->name . ' mengupdate informasi data pemilik lahan : ' . $request->nama,
-                'staff_id' => auth()->user->id,
+                'staff_id' => auth()->user()->id,
             ]);
             return redirect()->route('data-pemilik.index')->with('success', 'Data Berhasil Diupdate');
         } else {
@@ -87,7 +87,7 @@ class PemilikController extends Controller
         if ($data->delete()){
             Activity::create([
                 'aktivitas' => auth()->user()->name . ' menghapus informasi data pemilik lahan : ' . $data->nama_pemilik,
-                'staff_id' => auth()->user->id,
+                'staff_id' => auth()->user()->id,
             ]);
             return redirect()->route('data-pemilik.index')->with('success', 'Data Terkait Berhasil Dihapus');
         } else {

@@ -80,7 +80,7 @@ class LoginController extends Controller
             if ($user->role === 'Petugas' || $user->role === 'Admin') {
                 Activity::create([
                     'aktivitas' => auth()->user()->name . ' login ke sistem SIPETA',
-                    'staff_id' => auth()->user->id,
+                    'staff_id' => auth()->user()->id,
                 ]);
                 return redirect('/dashboard');
             } else {
@@ -98,7 +98,7 @@ class LoginController extends Controller
            if ($role === 'Petugas' || $role === 'Admin') {
                 Activity::create([
                     'aktivitas' => auth()->user()->name . ' logout dari sistem SIPETA',
-                    'staff_id' => auth()->user->id,
+                    'staff_id' => auth()->user()->id,
                 ]);
                 Auth::logout();
             }
