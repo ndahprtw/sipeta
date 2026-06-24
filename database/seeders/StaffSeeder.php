@@ -41,7 +41,7 @@ class StaffSeeder extends Seeder
                 'email' => 'petugass@gmail.com',
                 'password' => Hash::make('123456'),
                 'role' => 'Petugas',
-                'profile' => 'user.jpeg',
+                'profile' => 'user-2.jpeg',
                 'created_at' => now(),
                 'updated_at' => now(),
             ],

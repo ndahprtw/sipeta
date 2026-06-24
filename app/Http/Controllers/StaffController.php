@@ -139,7 +139,7 @@ class StaffController extends Controller
 
         if ($user->delete()){
             Activity::create([
-                'aktivitas' => auth()->user()->name . ' mengupdate informasi data ' . $user->name,
+                'aktivitas' => auth()->user()->name . ' menghapus informasi data ' . $user->name,
                 'staff_id' => auth()->user()->id,
             ]);
             return redirect()->route('data-staff.index')->with('success', 'Data Terkait Berhasil Dihapus');
