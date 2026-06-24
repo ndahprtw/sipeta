@@ -21,7 +21,7 @@ class LoginController extends Controller
         $total_lahan = Lahan::count();
         if (auth()->user()->role == 'Admin') {
             $log_aktivitas = Activity::whereDate('created_at', now())->latest()->get();
-        } elseif (auth()->user()->role == 'Admin') {
+        } elseif (auth()->user()->role == 'Petugas') {
             $log_aktivitas = Activity::whereDate('created_at', now())
                     ->where('staff_id', auth()->user()->id)
                     ->latest()
