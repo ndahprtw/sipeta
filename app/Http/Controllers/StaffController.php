@@ -57,6 +57,7 @@ class StaffController extends Controller
         if ($user->save()){
             Activity::create([
                 'aktivitas' => auth()->user()->name . ' menambahkan data ' . $request->role . ' baru.',
+                'staff_id' => auth()->user->id,
             ]);
             return redirect()->route('data-staff.index')->with('success', 'Data Berhasil Ditambahkan');
         } else {
@@ -115,6 +116,7 @@ class StaffController extends Controller
         if ($user->save()){
             Activity::create([
                 'aktivitas' => auth()->user()->name . ' mengupdate informasi data ' . $request->name,
+                'staff_id' => auth()->user->id,
             ]);
             return redirect()->route('data-staff.index')->with('success', 'Data Berhasil Diperbarui');
         } else {
@@ -138,6 +140,7 @@ class StaffController extends Controller
         if ($user->delete()){
             Activity::create([
                 'aktivitas' => auth()->user()->name . ' mengupdate informasi data ' . $user->name,
+                'staff_id' => auth()->user->id,
             ]);
             return redirect()->route('data-staff.index')->with('success', 'Data Terkait Berhasil Dihapus');
         } else {

@@ -19,7 +19,15 @@ class LoginController extends Controller
         $total_petugas = Staff::where('role', 'Petugas')->count();
         $total_pemilik = Pemilik::count();
         $total_lahan = Lahan::count();
-        $log_aktivitas = Activity::whereDate('created_at', now())->latest()->get();
+        if (auth()->user()->role == 'Admin') {
+            $log_aktivitas = Activity::whereDate('created_at', now())->latest()->get();
+        } elseif (auth()->user()->role == 'Admin') {
+            $log_aktivitas = Activity::whereDate('created_at', now())
+                    ->where('staff_id', auth()->user()->id)
+                    ->latest()
+                    ->get();
+        }
+        
 
         // kategori lahan
         $kategoriChart = KategoriLahan::withCount('lahans')->get();
@@ -70,6 +78,10 @@ class LoginController extends Controller
             $user = Auth::user();
             
             if ($user->role === 'Petugas' || $user->role === 'Admin') {
+                Activity::create([
+                    'aktivitas' => auth()->user()->name . ' login ke sistem SIPETA',
+                    'staff_id' => auth()->user->id,
+                ]);
                 return redirect('/dashboard');
             } else {
                 return redirect('/login')->with('wrong', 'Role tidak Ditemukan !');
@@ -84,6 +96,10 @@ class LoginController extends Controller
             $role = Auth::user()->role;
     
            if ($role === 'Petugas' || $role === 'Admin') {
+                Activity::create([
+                    'aktivitas' => auth()->user()->name . ' logout dari sistem SIPETA',
+                    'staff_id' => auth()->user->id,
+                ]);
                 Auth::logout();
             }
         } 

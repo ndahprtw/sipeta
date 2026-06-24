@@ -53,6 +53,26 @@
                             </div>
 
                             <div class="col-md-12 mb-3">
+                                <label>Status Lahan</label>
+                                <select name="status_lahan" class="form-select @error('status_lahan') is-invalid @enderror">
+                                    <option value="">Pilih Status</option>
+                                    <option value="tersedia" {{ old('status_lahan', $data->status_lahan) == 'tersedia' ? 'selected' : '' }}>
+                                        Tersedia
+                                    </option>
+                                    <option value="dijual" {{ old('status_lahan', $data->status_lahan) == 'dijual' ? 'selected' : '' }}>
+                                        Dijual
+                                    </option>
+                                    <option value="dalam proses" {{ old('status_lahan', $data->status_lahan) == 'dalam proses' ? 'selected' : '' }}>
+                                        Dalam Proses
+                                    </option>
+                                </select>
+
+                                @error('status_lahan')
+                                    <div class="invalid-feedback">{{ $message }}</div>
+                                @enderror
+                            </div>
+
+                            <div class="col-md-12 mb-3">
                                 <label>Penanggung Jawab</label>
                                 <input type="text" class="form-control" value="{{ auth()->user()->name }}" disabled>
                                 <input type="hidden" name="penanggung_jawab_id" value="{{ old('penanggung_jawab_id', $data->penanggung_jawab_id) }}">

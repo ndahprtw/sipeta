@@ -34,6 +34,7 @@
                                         <tr>
                                             <th>Tanggal</th>
                                             <th>Waktu</th>
+                                            <th>Nama</th>
                                             <th>Log Aktivitas</th>
                                         </tr>
                                     </thead>
@@ -42,6 +43,7 @@
                                         <tr>
                                             <td>{{ $item->created_at->format('Y-m-d') }}</td>
                                             <td>{{ $item->created_at->format('H:i') }}</td>
+                                            <td>{{ $item->staff->name }}</td>
                                             <td>{{ $item->aktivitas }}</td>
                                         </tr>
                                         @endforeach

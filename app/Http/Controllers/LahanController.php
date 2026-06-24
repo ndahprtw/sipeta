@@ -52,6 +52,7 @@ class LahanController extends Controller
         if ($data->save()){
             Activity::create([
                 'aktivitas' => auth()->user()->name . ' menambahkan informasi lahan baru : ' . $kode_lahan,
+                'staff_id' => auth()->user->id,
             ]);
             return redirect()->route('data-lahan.index')->with('success', 'Data Berhasil Ditambahkan');
         } else {
@@ -77,6 +78,7 @@ class LahanController extends Controller
             if ($data->save()){
                 Activity::create([
                     'aktivitas' => auth()->user()->name . ' memverifikasi lahan : ' . $data->kode_lahan,
+                    'staff_id' => auth()->user->id,
                 ]);
                 return redirect()->route('data-lahan.index')->with('success', 'Data lahan telah disetujui dan akan ditampilkan pada peta publik SIPETA.');
             } else {
@@ -88,17 +90,20 @@ class LahanController extends Controller
                 'nama_lahan' => 'required',
                 'kategori' => 'required',
                 'deskripsi' => 'required',
+                'status_lahan' => 'required',
             ]); 
             
             $data->update([
                 'nama_lahan' => $request->nama_lahan,
                 'kategori_id' => $request->kategori,
+                'status_lahan' => $request->status_lahan,
                 'deskripsi' => $request->deskripsi,
             ]);
 
             if ($data->save()){
                 Activity::create([
                     'aktivitas' => auth()->user()->name . ' mengupdate informasi lahan : ' . $data->kode_lahan,
+                    'staff_id' => auth()->user->id,
                 ]);
                 return redirect()->route('data-lahan.index')->with('success', 'Data Berhasil Diperbarui');
             } else {
@@ -124,6 +129,7 @@ class LahanController extends Controller
         if ($data->delete()){
             Activity::create([
                 'aktivitas' => auth()->user()->name . ' menghapus informasi lahan : ' . $data->kode_lahan,
+                'staff_id' => auth()->user->id,
             ]);
             return redirect()->route('data-pemilik.index')->with('success', 'Data Terkait Berhasil Dihapus');
         } else {

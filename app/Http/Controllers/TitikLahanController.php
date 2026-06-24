@@ -32,6 +32,7 @@ class TitikLahanController extends Controller
 
         Activity::create([
             'aktivitas' => auth()->user()->name . ' menambahkan lokasi untuk lahan : ' . $lahan->kode_lahan,
+            'staff_id' => auth()->user->id,
         ]);
 
         return response()->json([
@@ -62,6 +63,7 @@ class TitikLahanController extends Controller
 
         Activity::create([
             'aktivitas' => auth()->user()->name . ' mengupdate lokasi untuk lahan : ' . $lahan->kode_lahan,
+            'staff_id' => auth()->user->id,
         ]);
 
         return response()->json([
@@ -79,6 +81,7 @@ class TitikLahanController extends Controller
 
         Activity::create([
             'aktivitas' => auth()->user()->name . ' menghapus lokasi untuk lahan : ' . $lahan->kode_lahan,
+            'staff_id' => auth()->user->id,
         ]);
 
         return redirect()->route('data-lahan.show', $lahan->id)->with('success', 'Titik lokasi lahan berhasil dihapus');
