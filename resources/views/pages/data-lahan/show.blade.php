@@ -341,7 +341,7 @@
 
         $(document).ready(function () {
 
-            $.getJSON('/titik-lahan-pemilik/{{ $data->pemilik->id }}', function (data) {
+            $.getJSON('/koordinat-lahan/{{ $data->id }}', function (data) {
 
                 let group = L.featureGroup().addTo(map);
 

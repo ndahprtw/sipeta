@@ -52,4 +52,5 @@ Route::group(['middleware' => 'cekrole:Admin,Petugas'], function() {
     Route::get('/update-status/{id}', [LahanController::class, 'update_status']);
     Route::get('/maps', [MapsController::class, 'view_maps']);
     Route::get('/titik-lahan-pemilik/{id}', [MapsController::class, 'json_pemilik_lahan']);
+    Route::get('/koordinat-lahan/{id}', [MapsController::class, 'json_lahan']);
 });

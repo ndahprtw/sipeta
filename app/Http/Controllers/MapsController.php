@@ -27,4 +27,9 @@ class MapsController extends Controller
         $titik_lokasi = Lahan::with(['pemilik', 'kategori', 'titikLahans'])->where('pemilik_id', $id)->get();
         return response()->json($titik_lokasi);
     }
+    
+    public function json_lahan($id) {
+        $titik_lokasi = Lahan::with(['pemilik', 'kategori', 'titikLahans'])->where('id', $id)->get();
+        return response()->json($titik_lokasi);
+    }
 }
