@@ -33,7 +33,7 @@
 
                             <div class="col-md-12 mb-3">
                                 <label>Kategori Lahan</label>
-                                <select name="kategori_id" class="form-select @error('kategori_id') is-invalid @enderror">
+                                <select name="kategori" class="form-select @error('kategori') is-invalid @enderror">
                                     <option value="">Pilih Kategori</option>
                                     @foreach ($kategori as $k)
                                         <option value="{{ $k->id }}"
@@ -42,7 +42,7 @@
                                         </option>
                                     @endforeach
                                 </select>
-                                @error('kategori_id')
+                                @error('kategori')
                                     <div class="invalid-feedback">{{ $message }}</div>
                                 @enderror
                             </div>

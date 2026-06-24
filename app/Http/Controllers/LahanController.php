@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Http\Controllers\Controller;
+use App\Models\Activity;
 use App\Models\KategoriLahan;
 use App\Models\Lahan;
 use App\Models\Pemilik;
@@ -49,6 +50,9 @@ class LahanController extends Controller
         ]);
 
         if ($data->save()){
+            Activity::create([
+                'aktivitas' => auth()->user()->name . ' menambahkan informasi lahan baru : ' . $kode_lahan,
+            ]);
             return redirect()->route('data-lahan.index')->with('success', 'Data Berhasil Ditambahkan');
         } else {
             return redirect()->back()->with('error', 'Gagal Menambahkan Data');
@@ -71,6 +75,9 @@ class LahanController extends Controller
             ]);
 
             if ($data->save()){
+                Activity::create([
+                    'aktivitas' => auth()->user()->name . ' memverifikasi lahan : ' . $data->kode_lahan,
+                ]);
                 return redirect()->route('data-lahan.index')->with('success', 'Data lahan telah disetujui dan akan ditampilkan pada peta publik SIPETA.');
             } else {
                 return redirect()->back()->with('error', 'Gagal Menambahkan Data');
@@ -90,7 +97,10 @@ class LahanController extends Controller
             ]);
 
             if ($data->save()){
-                return redirect()->route('data-lahan.index')->with('success', 'Data Berhasil Ditambahkan');
+                Activity::create([
+                    'aktivitas' => auth()->user()->name . ' mengupdate informasi lahan : ' . $data->kode_lahan,
+                ]);
+                return redirect()->route('data-lahan.index')->with('success', 'Data Berhasil Diperbarui');
             } else {
                 return redirect()->back()->with('error', 'Gagal Menambahkan Data');
             }
@@ -112,6 +122,9 @@ class LahanController extends Controller
     {
         $data = Lahan::findOrFail($id);
         if ($data->delete()){
+            Activity::create([
+                'aktivitas' => auth()->user()->name . ' menghapus informasi lahan : ' . $data->kode_lahan,
+            ]);
             return redirect()->route('data-pemilik.index')->with('success', 'Data Terkait Berhasil Dihapus');
         } else {
             return redirect()->back()->with('error', 'Gagal Menghapus Data');

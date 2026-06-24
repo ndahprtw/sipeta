@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Controllers\Controller;
+use App\Models\Activity;
 use App\Models\FotoLahan;
 use App\Models\Lahan;
 use Illuminate\Http\Request;
@@ -32,7 +34,12 @@ class FotoLahanController extends Controller
             'keterangan' => $request->keterangan,
         ]);
 
+        $lahan = Lahan::findOrfail($request->lahan_id);
+
         if ($data->save()){
+            Activity::create([
+                'aktivitas' => auth()->user()->name . ' menambahkan foto untuk lahan : ' . $lahan->kode_lahan,
+            ]);
             return redirect()->route('data-lahan.show', $request->lahan_id)->with('success', 'Data Berhasil Ditambahkan');
         } else {
             return redirect()->back()->with('error', 'Gagal Menambahkan Data');
@@ -52,6 +59,9 @@ class FotoLahanController extends Controller
         }
 
         if ($data->delete()){
+            Activity::create([
+                'aktivitas' => auth()->user()->name . ' menghapus foto untuk lahan : ' . $lahan->kode_lahan,
+            ]);
             return redirect()->route('data-lahan.show', $data->lahan_id)->with('success', 'Foto Terkait Berhasil Dihapus');
         } else {
             return redirect()->back()->with('error', 'Gagal Menghapus Data');

@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Http\Controllers\Controller;
+use App\Models\Activity;
 use App\Models\Lahan;
 use App\Models\TitikLahan;
 use Illuminate\Http\Request;
@@ -27,6 +28,10 @@ class TitikLahanController extends Controller
         $lahan = Lahan::findOrFail($request->lahan_id);
         $lahan->update([
             'luas' => $request->luas,
+        ]);
+
+        Activity::create([
+            'aktivitas' => auth()->user()->name . ' menambahkan lokasi untuk lahan : ' . $lahan->kode_lahan,
         ]);
 
         return response()->json([
@@ -54,6 +59,11 @@ class TitikLahanController extends Controller
         $lahan->update([
             'luas' => $request->luas
         ]);
+
+        Activity::create([
+            'aktivitas' => auth()->user()->name . ' mengupdate lokasi untuk lahan : ' . $lahan->kode_lahan,
+        ]);
+
         return response()->json([
             'success' => true
         ]);
@@ -66,6 +76,11 @@ class TitikLahanController extends Controller
         $lahan->update([
             'luas' => null
         ]);
+
+        Activity::create([
+            'aktivitas' => auth()->user()->name . ' menghapus lokasi untuk lahan : ' . $lahan->kode_lahan,
+        ]);
+
         return redirect()->route('data-lahan.show', $lahan->id)->with('success', 'Titik lokasi lahan berhasil dihapus');
     }
 }

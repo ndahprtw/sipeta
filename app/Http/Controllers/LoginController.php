@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Http\Controllers\Controller;
+use App\Models\Activity;
 use App\Models\KategoriLahan;
 use App\Models\Lahan;
 use App\Models\Pemilik;
@@ -18,6 +19,7 @@ class LoginController extends Controller
         $total_petugas = Staff::where('role', 'Petugas')->count();
         $total_pemilik = Pemilik::count();
         $total_lahan = Lahan::count();
+        $log_aktivitas = Activity::whereDate('created_at', now())->latest()->get();
 
         // kategori lahan
         $kategoriChart = KategoriLahan::withCount('lahans')->get();
@@ -46,7 +48,7 @@ class LoginController extends Controller
         $statusVerifikasiData = $statusVerifikasi->pluck('total');
 
         return view('pages.dashboard', compact(
-            'total_petugas', 'total_pemilik', 'total_lahan',
+            'total_petugas', 'total_pemilik', 'total_lahan', 'log_aktivitas',
             'kategoriLabel', 'kategoriData', 'kategoriWarna',
             'statusLahanLabel', 'statusLahanData',
             'statusVerifikasiLabel', 'statusVerifikasiData'

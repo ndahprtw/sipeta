@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Staff;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
+use App\Models\Activity;
 use Illuminate\Support\Facades\Hash;
 
 class StaffController extends Controller
@@ -54,6 +55,9 @@ class StaffController extends Controller
         ]);
 
         if ($user->save()){
+            Activity::create([
+                'aktivitas' => auth()->user()->name . ' menambahkan data ' . $request->role . ' baru.',
+            ]);
             return redirect()->route('data-staff.index')->with('success', 'Data Berhasil Ditambahkan');
         } else {
             return redirect()->back()->with('error', 'Gagal Menambahkan Data');
@@ -109,6 +113,9 @@ class StaffController extends Controller
         ]);
 
         if ($user->save()){
+            Activity::create([
+                'aktivitas' => auth()->user()->name . ' mengupdate informasi data ' . $request->name,
+            ]);
             return redirect()->route('data-staff.index')->with('success', 'Data Berhasil Diperbarui');
         } else {
             return redirect()->back()->with('error', 'Gagal Mengupdate Data');
@@ -129,6 +136,9 @@ class StaffController extends Controller
         }
 
         if ($user->delete()){
+            Activity::create([
+                'aktivitas' => auth()->user()->name . ' mengupdate informasi data ' . $user->name,
+            ]);
             return redirect()->route('data-staff.index')->with('success', 'Data Terkait Berhasil Dihapus');
         } else {
             return redirect()->back()->with('error', 'Gagal Menghapus Data');

@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Controllers\Controller;
+use App\Models\Activity;
 use App\Models\KategoriLahan;
 use Illuminate\Http\Request;
 
@@ -27,6 +29,9 @@ class KategoriLahanController extends Controller
         ]);
 
         if ($data->save()){
+            Activity::create([
+                'aktivitas' => auth()->user()->name . ' menambahkan kategori lahan baru : ' . $request->kategori,
+            ]);
             return redirect()->route('kategori-lahan.index')->with('success', 'Data Berhasil Ditambahkan');
         } else {
             return redirect()->back()->with('error', 'Gagal Menambahkan Data');
@@ -37,7 +42,7 @@ class KategoriLahanController extends Controller
     {
         $request->validate([
             'kategori' => 'required',
-            'warna' => 'required|unique:kategori_lahans,warna',
+            'warna' => 'required',
             'deskripsi' => 'required',
         ]); 
         
@@ -49,6 +54,9 @@ class KategoriLahanController extends Controller
         ]);
 
         if ($data->save()){
+            Activity::create([
+                'aktivitas' => auth()->user()->name . ' mengupdate kategori lahan : ' . $request->kategori,
+            ]);
             return redirect()->route('kategori-lahan.index')->with('success', 'Data Berhasil Diupdate');
         } else {
             return redirect()->back()->with('error', 'Gagal Menambahkan Data');
@@ -59,6 +67,9 @@ class KategoriLahanController extends Controller
     {
         $data = KategoriLahan::findOrFail($id);
         if ($data->delete()){
+            Activity::create([
+                'aktivitas' => auth()->user()->name . ' menghapus kategori lahan : ' . $data->nama_kategori,
+            ]);
             return redirect()->route('kategori-lahan.index')->with('success', 'Data Terkait Berhasil Dihapus');
         } else {
             return redirect()->back()->with('error', 'Gagal Menghapus Data');

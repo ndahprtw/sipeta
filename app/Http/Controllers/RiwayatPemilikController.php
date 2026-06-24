@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Http\Controllers\Controller;
+use App\Models\Activity;
 use App\Models\Lahan;
 use App\Models\Pemilik;
 use App\Models\RiwayatPemilik;
@@ -39,6 +40,9 @@ class RiwayatPemilikController extends Controller
                 'pemilik_id' => $request->pemilik_baru,
             ]);
             $lahan->save();
+            Activity::create([
+                'aktivitas' => auth()->user()->name . ' mengubah riwayat kepemilikan lahan : ' . $lahan->kode_lahan,
+            ]);
             return redirect()->route('riwayat-pemilik.show', $request->lahan_id)->with('success', 'Data Berhasil Ditambahkan');
         } else {
             return redirect()->back()->with('error', 'Gagal Menambahkan Data');

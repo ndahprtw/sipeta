@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\ActivityController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\LoginController;
 use App\Http\Controllers\StaffController;
@@ -33,6 +34,7 @@ Route::get('/logout', [LoginController::class, 'logout']);
 
 Route::group(['middleware' => 'cekrole:Admin,Petugas'], function() {
     Route::get('/dashboard', [LoginController::class, 'dashboard']);
+    Route::get('/log-aktivitas', [ActivityController::class, 'index']);
     // Route::resource('/data-lahan', LokasiBidangController::class)->names('data-lahan');
     
     Route::resource('/data-lahan', LahanController::class)->names('data-lahan');
@@ -43,6 +45,7 @@ Route::group(['middleware' => 'cekrole:Admin,Petugas'], function() {
     Route::resource('/titik-lahan', TitikLahanController::class)->names('titik-lahan');
     Route::resource('/riwayat-pemilik', RiwayatPemilikController::class)->names('riwayat-pemilik');
     Route::get('/unduh-data/{id}', [LahanController::class, 'unduh']);
+    Route::get('/update-status/{id}', [LahanController::class, 'update_status']);
     Route::get('/maps', [MapsController::class, 'view_maps']);
     Route::get('/data-titik', [MapsController::class, 'json']);
     Route::get('/titik-lahan-pemilik/{id}', [MapsController::class, 'json_pemilik_lahan']);

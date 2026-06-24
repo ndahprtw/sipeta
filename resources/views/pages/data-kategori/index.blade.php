@@ -181,7 +181,7 @@
                                                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                                                        </div>
                                                        <div class="modal-body">
-                                                           Apakah Anda yakin ingin menghapus data dari <strong>{{ $item->nama }}</strong>?
+                                                           Apakah Anda yakin ingin menghapus data dari <strong>{{ $item->nama_kategori }}</strong>?
                                                        </div>
                                                        <div class="modal-footer">
                                                            <form action="{{ route('kategori-lahan.destroy', $item->id) }}" method="POST">

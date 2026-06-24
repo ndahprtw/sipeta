@@ -54,6 +54,16 @@
       </a>
     </li><!-- End Nav -->
 
+    @if ( Auth::user()->role == 'Admin' )
+      <!-- Nav -->
+      <li class="nav-item">
+        <a href="{{ url('/log-aktivitas') }}" class="nav-link {{ Request::is('log-aktivitas*') ? '' : 'collapsed' }}">
+          <i class="bi bi-activity"></i>
+          <span>Log Aktivitas</span>
+        </a>
+      </li><!-- End Nav -->
+    @endif
+
     <!-- Logout Nav -->
     <li class="nav-item">
       <a class="nav-link collapsed" href="/logout">

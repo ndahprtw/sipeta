@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Http\Controllers\Controller;
+use App\Models\Activity;
 use App\Models\Lahan;
 use App\Models\Pemilik;
 use Illuminate\Http\Request;
@@ -33,6 +34,9 @@ class PemilikController extends Controller
         ]);
 
         if ($data->save()){
+            Activity::create([
+                'aktivitas' => auth()->user()->name . ' menambahkan data pemilik lahan baru : ' . $request->nama,
+            ]);
             return redirect()->route('data-pemilik.index')->with('success', 'Data Berhasil Ditambahkan');
         } else {
             return redirect()->back()->with('error', 'Gagal Menambahkan Data');
@@ -60,6 +64,9 @@ class PemilikController extends Controller
         ]);
 
         if ($data->save()){
+            Activity::create([
+                'aktivitas' => auth()->user()->name . ' mengupdate informasi data pemilik lahan : ' . $request->nama,
+            ]);
             return redirect()->route('data-pemilik.index')->with('success', 'Data Berhasil Diupdate');
         } else {
             return redirect()->back()->with('error', 'Gagal Menambahkan Data');
@@ -76,6 +83,9 @@ class PemilikController extends Controller
     {
         $data = Pemilik::findOrFail($id);
         if ($data->delete()){
+            Activity::create([
+                'aktivitas' => auth()->user()->name . ' menghapus informasi data pemilik lahan : ' . $data->nama_pemilik,
+            ]);
             return redirect()->route('data-pemilik.index')->with('success', 'Data Terkait Berhasil Dihapus');
         } else {
             return redirect()->back()->with('error', 'Gagal Menghapus Data');
